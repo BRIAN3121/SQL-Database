@@ -1,0 +1,99 @@
+1.Introduction
+
+This portfolio uses examples tables customers, orders, employees, and products to show 
+how to use SQL for data cleansing activities. Sample queries that demonstrate typical 
+data cleansing procedures are included in every section.
+
+2.Common Data Cleaning Commands
+
+Removinng Duplicates
+
+The 'DISTINCT' keyword is used to remove duplicate rows from the result set.
+
+Example:
+
+SELECT DISTINCT Email
+FROM Customers;
+
+You might need to use a ROW_NUMBER function or a DELETE statement with a subquery in 
+order to eliminate duplicates from a table.
+
+Example:
+
+DELETE FROM customers
+WHERE customer_id NOT IN (
+    SELECT MIN(customer_id)
+    FROM customers
+    GROUP BY email
+);
+
+3.UPDATE
+Use the UPDATE statement in a table to replace NULL values.
+
+Example:
+
+UPDATE customers
+SET email = 'days312@example.com'
+WHERE email IS NULL;
+
+4.Formatting Data
+
+The case of string data can be changed using the 'UPPER', 'LOWER', and INITCAP methods.
+
+Example:
+
+SELECT UPPER(first_name) AS first_name_upper,
+       LOWER(last_name) AS last_name_lower
+FROM customers;
+
+5.Removing Unwanted Characters
+
+To replace instances of a given substring, use the 'REPLACE' function.
+
+Example:
+
+SELECT REPLACE(phone, '-', '') AS phone
+FROM customers;
+
+6.Data Type Conversion
+
+A value can be converted between different data types using the CAST function. 
+
+*This function changes the order_date column to a standard DATE data type, which
+ normally only contains the year, month, and day components and excludes time. The
+ order_date column may have been in another format, such as DATETIME, VARCHAR, or
+ another format.
+
+Example:
+
+SELECT CAST(order_date AS DATE) AS order_date
+FROM orders;
+
+7.Splitting Columns
+
+String functions such as 'SUBSTRING' and 'POSITION' can be used to split a column into numerous columns.
+
+Example:
+
+SELECT SUBSTRING(full_name FROM 1 FOR POSITION(' ' IN full_name) - 1) AS first_name,
+       SUBSTRING(full_name FROM POSITION(' ' IN full_name) + 1) AS last_name
+FROM employees;
+
+8.Trimming Spaces
+
+To eliminate spaces from strings, using the TRIM, LTRIM, and RTRIM functions.
+
+Example:
+
+SELECT TRIM(both ' ' from first_name) AS first_name_trimmed
+FROM customers;
+
+9.Renaming Columns
+
+To rename columns, use the ALTER TABLE statement.
+
+Example:
+
+ALTER TABLE customers
+RENAME COLUMN email TO email_address;
+ 
