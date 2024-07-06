@@ -1,0 +1,101 @@
+SQL Portfolio Commands
+
+1.Introduction:
+
+This portfolio uses actual tables, including those for customers, orders, employees, and products,
+to show how to utilize SQL for data analytics activities. Sample queries that demonstrate typical 
+data processing and analysis activities are included in each area.
+
+2.Common SQL Commands
+The 'SELECT' statement is used to retrieve data from one or two tables.
+
+Example:
+
+SELECT First_Name,Last_Name 
+FROM Customers;
+
+
+3.WHERE
+The'WHERE'is used to filter records.
+
+Example:
+
+SELECT order_id, order_date, total_amount
+FROM orders
+WHERE total_Amount > 100;
+
+4.JOIN Clause
+The 'JOIN' clause is used to combine rows from two or more tables on a related columns
+
+Example:
+
+SELECT c.first_name, c.last_name, o.order_date, o.total_amount
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id;
+
+5.Group By
+The Group By clause is used to group rows that have the same values speciefied columns ito summary rows.
+
+Example:
+
+SELECT customer_id, COUNT(order_id) AS total_orders, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY customer_id;
+
+6.ORDER BY
+The 'ORDER BY'clause is used to sort the result set.
+
+Example:
+
+SELECT product_name, price
+FROM products
+ORDER BY price DESC;
+
+7.HAVING
+The'HAVING' clause is used to filter groups created by Group By clause.
+
+Example:
+
+SELECT customer_id, COUNT(order_id) AS total_orders
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(order_id) > 5;
+
+8.Subqueries
+A 'Subquery' is a query nested in another query.
+
+Example:
+
+SELECT first_name, last_name
+FROM employees
+WHERE employee_id IN (
+    SELECT manager_id
+    FROM employees
+);
+
+9.Aggregation Functions
+Aggrigation Functions performs a calculation on a set of values and return a single value.
+
+Example:
+
+SELECT AVG(salary) AS avg_salary, MAX(salary) AS max_salary, MIN(salary) AS min_salary
+FROM employees;
+
+10.Case Statements
+The 'Case' statement is used to create conditional Logic in SQL queries.
+
+Example:
+
+SELECT product_name, price,
+       CASE 
+           WHEN price > 100 THEN 'Expensive'
+           WHEN price BETWEEN 50 AND 100 THEN 'Moderate'
+           ELSE 'Cheap'
+       END AS price_category
+FROM products;
+
+
+**NOTE**
+The core examples in this portfolio highlight the flexibility and strength of SQL for data analytics. 
+Every example explains a particular command or set of commands, illustrating efficient data manipulation 
+and analysis.
