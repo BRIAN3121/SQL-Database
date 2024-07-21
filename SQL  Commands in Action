@@ -25,13 +25,35 @@ FROM orders
 WHERE total_Amount > 100;
 
 4.JOIN Clause
-The 'JOIN' clause is used to combine rows from two or more tables on a related columns
+The 'JOIN' clause is used to combine rows from two or more tables on a related columns.These join clause 
+allow to join two to more tables.
 
 Example:
 
 SELECT c.first_name, c.last_name, o.order_date, o.total_amount
 FROM customers c
 JOIN orders o ON c.customer_id = o.customer_id;
+
+Example Left Join
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+
+Example Right Join
+
+SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
+FROM Orders
+RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+ORDER BY Orders.OrderID;
+
+Example Full Join
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+FULL OUTER JOIN Orders ON Customers.CustomerID=Orders.CustomerID
+ORDER BY Customers.CustomerName;
 
 5.Group By
 The Group By clause is used to group rows that have the same values speciefied columns ito summary rows.
@@ -43,13 +65,19 @@ FROM orders
 GROUP BY customer_id;
 
 6.ORDER BY
-The 'ORDER BY'clause is used to sort the result set.
+The 'ORDER BY'clause is used to sort the result set.The order can be ASC or Desc
 
-Example:
+Example DESC:
 
 SELECT product_name, price
 FROM products
 ORDER BY price DESC;
+
+Example ASC:
+
+select product_name, price
+FROM products
+ORDER BY price ASC;
 
 7.HAVING
 The'HAVING' clause is used to filter groups created by Group By clause.
@@ -89,11 +117,19 @@ Example:
 SELECT product_name, price,
        CASE 
            WHEN price > 100 THEN 'Expensive'
-           WHEN price BETWEEN 50 AND 100 THEN 'Moderate'
+           WHEN price BETWEEN 50 AND 100 THEN 'Reasonable'
            ELSE 'Cheap'
        END AS price_category
 FROM products;
 
+11.Exist
+operator is used to test for the existence of any record in a subquery.
+
+Example:
+
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 
 **NOTE**
 The core examples in this portfolio highlight the flexibility and strength of SQL for data analytics. 
