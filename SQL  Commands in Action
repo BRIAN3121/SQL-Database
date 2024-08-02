@@ -131,6 +131,47 @@ SELECT SupplierName
 FROM Suppliers
 WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 
+12-- Create a database
+CREATE DATABASE EmployeeDB;
+
+-- Switch to the new database
+USE EmployeeDB;
+
+-- Create a table named Employees
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Position VARCHAR(50),
+    Salary DECIMAL(10, 2),
+    HireDate DATE
+);
+--------------------------
+-- Insert some sample data into the Employees table
+INSERT INTO Employees (FirstName, LastName, Position, Salary, HireDate)
+VALUES
+('John', 'Doe', 'Software Engineer', 80000.00, '2023-01-15'),
+('Jane', 'Smith', 'Data Analyst', 75000.00, '2023-02-20'),
+('Michael', 'Brown', 'Project Manager', 90000.00, '2023-03-10');
+------------------------
+-- Query to retrieve all employees
+SELECT * FROM Employees;
+
+-- Query to find employees with a salary greater than $80,000
+SELECT FirstName, LastName, Position, Salary
+FROM Employees
+WHERE Salary > 80000;
+------------------------
+-- Update salary for a specific employee
+UPDATE Employees
+SET Salary = 85000.00
+WHERE EmployeeID = 1;
+------------------------
+-- Delete an employee record
+DELETE FROM Employees
+WHERE EmployeeID = 2;
+
+
 **NOTE**
 The core examples in this portfolio highlight the flexibility and strength of SQL for data analytics. 
 Every example explains a particular command or set of commands, illustrating efficient data manipulation 
