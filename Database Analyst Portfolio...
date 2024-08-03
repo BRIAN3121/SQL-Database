@@ -1,0 +1,180 @@
+INTRO
+As a dedicated Database Analyst, I specialize in designing, managing, and optimizing database systems
+to ensure efficient data storage, retrieval, and analysis. With a strong foundation in SQL and relational
+database management, I bring a detail-oriented approach to data management, query optimization, and reporting. 
+Below are some examples of my work and skills demonstrated through various projects.
+
+1. Library Management System
+Project Description:
+Designed and implemented a database for a library management system, including tables for books, authors, 
+borrowers, and book loans.
+
+CODE:
+
+-- Create the database
+CREATE DATABASE LibraryDB;
+USE LibraryDB;
+
+-- Create the Authors table
+CREATE TABLE Authors (
+    AuthorID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    BirthDate DATE
+);
+
+-- Create the Books table
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(100) NOT NULL,
+    AuthorID INT,
+    PublishDate DATE,
+    Genre VARCHAR(50),
+    FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID)
+);
+
+-- Create the Borrowers table
+CREATE TABLE Borrowers (
+    BorrowerID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15)
+);
+
+-- Create the BookLoans table
+CREATE TABLE BookLoans (
+    LoanID INT PRIMARY KEY AUTO_INCREMENT,
+    BookID INT,
+    BorrowerID INT,
+    LoanDate DATE,
+    ReturnDate DATE,
+    FOREIGN KEY (BookID) REFERENCES Books(BookID),
+    FOREIGN KEY (BorrowerID) REFERENCES Borrowers(BorrowerID)
+);
+
+-- Insert sample data
+INSERT INTO Authors (FirstName, LastName, BirthDate) VALUES
+('George', 'Orwell', '1903-06-25'),
+('J.K.', 'Rowling', '1965-07-31');
+
+INSERT INTO Books (Title, AuthorID, PublishDate, Genre) VALUES
+('1984', 1, '1949-06-08', 'Dystopian'),
+('Harry Potter and the Philosopher\'s Stone', 2, '1997-06-26', 'Fantasy');
+
+INSERT INTO Borrowers (FirstName, LastName, Email, PhoneNumber) VALUES
+('Alice', 'Johnson', 'alice.johnson@example.com', '123-456-7890'),
+('Bob', 'Smith', 'bob.smith@example.com', '987-654-3210');
+
+-- Query to retrieve all books with their authors
+SELECT Books.Title, Authors.FirstName, Authors.LastName
+FROM Books
+JOIN Authors ON Books.AuthorID = Authors.AuthorID;
+
+-- Query to retrieve all active book loans
+SELECT Books.Title, Borrowers.FirstName, Borrowers.LastName, BookLoans.LoanDate
+FROM BookLoans
+JOIN Books ON BookLoans.BookID = Books.BookID
+JOIN Borrowers ON BookLoans.BorrowerID = Borrowers.BorrowerID
+WHERE BookLoans.ReturnDate IS NULL;
+---------------------------------------------------------------------------------------------
+2. Employee Management System
+Project Description:
+Developed a database schema for managing employee information, including details about positions, salaries, and hire dates.
+
+Code:
+
+-- Create the database
+CREATE DATABASE EmployeeDB;
+USE EmployeeDB;
+
+-- Create the Employees table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Position VARCHAR(50),
+    Salary DECIMAL(10, 2),
+    HireDate DATE
+);
+
+-- Insert sample data
+INSERT INTO Employees (FirstName, LastName, Position, Salary, HireDate) VALUES
+('John', 'Doe', 'Software Engineer', 80000.00, '2023-01-15'),
+('Jane', 'Smith', 'Data Analyst', 75000.00, '2023-02-20'),
+('Michael', 'Brown', 'Project Manager', 90000.00, '2023-03-10');
+
+-- Query to retrieve all employees
+SELECT * FROM Employees;
+
+-- Query to find employees with a salary greater than $80,000
+SELECT FirstName, LastName, Position, Salary
+FROM Employees
+WHERE Salary > 80000;
+
+-- Update salary for a specific employee
+UPDATE Employees
+SET Salary = 85000.00
+WHERE EmployeeID = 1;
+
+-- Delete an employee record
+DELETE FROM Employees
+WHERE EmployeeID = 2;
+
+-------------------------------------------------------------------------------------
+
+3. Sales Analytics Dashboard
+Project Description:
+Created a database for sales data analysis, including tables for sales transactions and products, and developed queries to generate sales reports.
+
+Code:
+
+-- Create the database
+CREATE DATABASE SalesDB;
+USE SalesDB;
+
+-- Create the Products table
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(100) NOT NULL,
+    Category VARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+
+-- Create the Sales table
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT,
+    SaleDate DATE,
+    Quantity INT,
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Insert sample data
+INSERT INTO Products (ProductName, Category, Price) VALUES
+('Laptop', 'Electronics', 1200.00),
+('Desk Chair', 'Furniture', 250.00);
+
+INSERT INTO Sales (ProductID, SaleDate, Quantity, TotalAmount) VALUES
+(1, '2024-07-01', 5, 6000.00),
+(2, '2024-07-05', 2, 500.00);
+
+-- Query to retrieve total sales amount per product
+SELECT Products.ProductName, SUM(Sales.TotalAmount) AS TotalSales
+FROM Sales
+JOIN Products ON Sales.ProductID = Products.ProductID
+GROUP BY Products.ProductName;
+
+-- Query to retrieve sales data for a specific date range
+SELECT ProductName, SaleDate, Quantity, TotalAmount
+FROM Sales
+JOIN Products ON Sales.ProductID = Products.ProductID
+WHERE SaleDate BETWEEN '2024-07-01' AND '2024-07-31';
+-----------------------------------------------------------------------------
+
+Skills Demonstrated
+1.Database Design: Creating normalized database schemas and defining relationships between tables.
+2.Query Writing: Crafting complex queries to retrieve, update, and manipulate data.
+3.Data Management: Handling data insertion, updating, and deletion with a focus on maintaining data integrity.
+4.Reporting and Analysis: Generating reports and performing data analysis to provide insights.
