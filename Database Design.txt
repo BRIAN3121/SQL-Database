@@ -1,0 +1,80 @@
+Database Design
+
+Certainly! Below is a sample SQL script to create a database schema with customers, products, suppliers, and orders tables. 
+Each table includes various data types for columns.
+
+-- Create Database
+CREATE DATABASE RetailDB;
+USE RetailDB;
+
+-- Create Customers Table
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique identifier for each customer
+    first_name VARCHAR(50) NOT NULL,                  -- First name of the customer
+    last_name VARCHAR(50) NOT NULL,                   -- Last name of the customer
+    email VARCHAR(100) UNIQUE NOT NULL,                -- Email address of the customer
+    phone_number VARCHAR(15),                          -- Phone number of the customer
+    address VARCHAR(255),                             -- Address of the customer
+    city VARCHAR(50),                                 -- City of the customer
+    state VARCHAR(50),                                -- State of the customer
+    zip_code VARCHAR(10)                              -- ZIP code of the customer
+);
+
+-- Create Products Table
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,        -- Unique identifier for each product
+    product_name VARCHAR(100) NOT NULL,               -- Name of the product
+    description TEXT,                                -- Description of the product
+    price DECIMAL(10, 2) NOT NULL,                    -- Price of the product (e.g., 9999.99)
+    stock_quantity INT NOT NULL,                     -- Quantity of the product in stock
+    supplier_id INT,                                 -- Foreign key referencing suppliers table
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+);
+
+-- Create Suppliers Table
+CREATE TABLE suppliers (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique identifier for each supplier
+    supplier_name VARCHAR(100) NOT NULL,              -- Name of the supplier
+    contact_name VARCHAR(50),                         -- Contact person at the supplier
+    contact_email VARCHAR(100),                       -- Email address of the contact person
+    contact_phone VARCHAR(15),                        -- Phone number of the contact person
+    address VARCHAR(255),                            -- Address of the supplier
+    city VARCHAR(50),                                -- City of the supplier
+    state VARCHAR(50),                               -- State of the supplier
+    zip_code VARCHAR(10)                             -- ZIP code of the supplier
+);
+
+-- Create Orders Table
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,          -- Unique identifier for each order
+    customer_id INT NOT NULL,                         -- Foreign key referencing customers table
+    order_date DATE NOT NULL,                         -- Date of the order
+    total_amount DECIMAL(10, 2) NOT NULL,            -- Total amount of the order
+    status VARCHAR(50),                              -- Status of the order (e.g., Pending, Shipped)
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Example data insertion
+-- Insert into Customers Table
+INSERT INTO customers (first_name, last_name, email, phone_number, address, city, state, zip_code)
+VALUES
+('John', 'Doe', 'john.doe@example.com', '123-456-7890', '123 Elm St', 'Springfield', 'IL', '62701'),
+('Jane', 'Smith', 'jane.smith@example.com', '987-654-3210', '456 Oak St', 'Springfield', 'IL', '62702');
+
+-- Insert into Suppliers Table
+INSERT INTO suppliers (supplier_name, contact_name, contact_email, contact_phone, address, city, state, zip_code)
+VALUES
+('Acme Corp', 'Alice Johnson', 'alice.johnson@acmecorp.com', '555-123-4567', '789 Pine St', 'Springfield', 'IL', '62703'),
+('Global Supply', 'Bob Brown', 'bob.brown@globalsupply.com', '555-987-6543', '101 Maple St', 'Springfield', 'IL', '62704');
+
+-- Insert into Products Table
+INSERT INTO products (product_name, description, price, stock_quantity, supplier_id)
+VALUES
+('Widget A', 'A high-quality widget', 19.99, 100, 1),
+('Gadget B', 'An innovative gadget', 29.99, 50, 2);
+
+-- Insert into Orders Table
+INSERT INTO orders (customer_id, order_date, total_amount, status)
+VALUES
+(1, '2024-08-06', 49.98, 'Pending'),
+(2, '2024-08-06', 29.99, 'Shipped');
