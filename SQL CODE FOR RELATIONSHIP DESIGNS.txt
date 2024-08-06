@@ -1,0 +1,56 @@
+-- Create Database
+CREATE DATABASE RetailDB;
+USE RetailDB;
+
+-- Create Customers Table
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,       -- Primary Key
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone_number VARCHAR(15),
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10)
+);
+
+-- Create Suppliers Table
+CREATE TABLE suppliers (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,       -- Primary Key
+    supplier_name VARCHAR(100) NOT NULL,
+    contact_name VARCHAR(50),
+    contact_email VARCHAR(100),
+    contact_phone VARCHAR(15),
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10)
+);
+
+-- Create Products Table
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,        -- Primary Key
+    product_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT NOT NULL,
+    supplier_id INT,                                 -- Foreign Key
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)  -- Establishes relationship with Suppliers table
+);
+
+-- Create Orders Table
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,          -- Primary Key
+    customer_id INT NOT NULL,                         -- Foreign Key
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(50),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)  -- Establishes relationship with Customers table
+);
+
+** NB**
+
+These relationships ensure data integrity and enable efficient data retrieval based on related entities. Including 
+these designs in your portfolio demonstrates your understanding of relational database principles and the ability to
+ design effective schemas.
