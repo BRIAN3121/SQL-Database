@@ -1,0 +1,87 @@
+Retail Management System Database Design
+
+Project Description:
+This project involves designing and implementing a relational database for a retail management system.
+The database is structured to handle customer information, supplier details, product inventory, and order
+processing. The goal is to create a robust and scalable system that ensures efficient data management and 
+retrieval.
+
+Database Design:
+1.Create the Database:
+-- Create Database
+CREATE DATABASE RetailDB;
+USE RetailDB;
+
+2.Customers Table:
+--This table stores all customer-related information, including contact details and address
+
+-- Create Customers Table
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,       -- Primary Key
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone_number VARCHAR(15),
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10)
+);
+INSERT INTO customers (Customer_id,first_name,last_name,email,phone_number,address,city,state,zip_code)
+VALUES (101, 'Peter','Smith','peter.s@gmail.com','123-456-678' ,'123 Grace Street', 'St Austin', 'CA', '94107' );
+------------------------------------------------------------------------------------------------------------------------------
+3.Suppliers Table:
+--This table keeps track of suppliers and their contact information.
+
+-- Create Suppliers Table
+CREATE TABLE suppliers (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,       -- Primary Key
+    supplier_name VARCHAR(100) NOT NULL,
+    contact_name VARCHAR(50),
+    contact_email VARCHAR(100),
+    contact_phone VARCHAR(15),
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10)
+);
+INSERT INTO customers (supplier_id,supplier_name,contact_name,contact_email,contact_phone,address,city,state,zip_code)
+VALUES (3, 'Perry','Smith Perry','perry.s@gmail.com','323-436-678' ,'456 Mercy Street', 'St Sames', 'Nyc', '11301' );
+------------------------------------------------------------------------------------------------------------------------------
+4.Products Table:
+--This table manages the product inventory, linking products to their respective suppliers.
+
+-- Create Products Table
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,        -- Primary Key
+    product_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT NOT NULL,
+    supplier_id INT,                                 -- Foreign Key
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)  -- Establishes relationship with Suppliers table
+);
+INSERT INTO products(product_id,product_name,price,quantity,supplier_id)
+VALUES(105,'jean',15.30,2,11)
+------------------------------------------------------------------------------------------------------------------------------
+5.Orders Table:
+--This table records customer orders, including the date, total amount, and status of the order.
+
+-- Create Orders Table
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,          -- Primary Key
+    customer_id INT NOT NULL,                         -- Foreign Key
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(50),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)  -- Establishes relationship with Customers table
+);
+INSERT INTO orders(order_id,customer_id,order_date,total_amount,status)
+VALUES(6,2,08/08/2024,30.20,'received')
+------------------------------------------------------------------------------------------------------------------------------
+--Tools and Technologies:
+Database:SQL Server
+Language: SQL
+--Outcome:
+Designed a relational database that can efficiently handle various operations of a retail business.
+Demonstrated skills in creating tables, establishing relationships through foreign keys, and enforcing data integrity.
