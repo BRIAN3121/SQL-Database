@@ -1,0 +1,74 @@
+Project Title:identify entities like employees ,attendence records and leave requests.create a relational schema with sql supporting attendence management
+
+*To design an Employee Attendance System, we need to identify the key entities and their relationships. The primary entities are Employees, Attendance
+Records, and Leave Requests. Below is a relational schema created using SQL that supports attendance management.
+
+Entities:
+1.Employees: Stores information about employees.
+2.Attendance records: tracks daily attendance, including clock-in and clock-out times.
+3.Leave Requests: records employee leave requests and their status.
+
+Relational Schema Design:
+
+1. Employees Table:
+This table stores employee details, including personal information and job-related data.
+
+CREATE TABLE employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone_number VARCHAR(15),
+    department VARCHAR(50),
+    position VARCHAR(50),
+    hire_date DATE NOT NULL
+);
+--insert into employees
+INSEERT INTO employees('employee_id','first_name','last_name','email','phone_number','department','hire_date')
+VALUES(105,'Dereck','Thompson','dereck.tomp@gmail.com','222-333-4445','finance Dpt',02-10-2023)
+VALUES(106,'Donald','Rhodes','dony.r@gmail.com','233-344-5455','IT Dpt','2023-06-05');
+----------------------------------------------------------------------------------------------------------------------------------------
+
+2. Attendance Records Table
+This table records employee attendance on a daily basis, including clock-in and clock-out times.
+
+CREATE TABLE attendance_records (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,  -- Foreign Key to Employees table
+    attendance_date DATE NOT NULL,
+    clock_in_time TIME,
+    clock_out_time TIME,
+    status VARCHAR(20) DEFAULT 'Present', -- E.g., 'Present', 'Absent', 'Late'
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
+);
+-- Insert into Attendance Records
+INSERT INTO attendance_records (employee_id, attendance_date, clock_in_time, clock_out_time, status)
+VALUES (1, '2024-08-18', '08:30:00', '17:00:00', 'Present')
+VALUES (7, '2024-08-18', NULL, NULL, 'Upsent')
+VALUES (11, '2024-08-18', '08:30:00', '17:30:00', 'Late');
+----------------------------------------------------------------------------------------------------------------------------------------
+3. Leave Requests Table
+This table manages employee leave requests, including the type of leave and its approval status.
+
+CREATE TABLE leave_requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL, -- Foreign Key to Employees table
+    leave_type VARCHAR(50) NOT NULL, -- E.g., 'Sick Leave', 'Vacation', 'Unpaid Leave'
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    request_date DATE NOT NULL,
+    status VARCHAR(20) DEFAULT 'Pending', -- E.g., 'Pending', 'Approved', 'Rejected'
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
+);
+INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, request_date, status)
+VALUES (1, 'Vacation', '2024-09-01', '2024-09-10', '2024-08-15', 'Rejected')
+VALUES (6, 'sick leave', '2024-08-01', '2024-09-14', '2024-08-15', 'Approved')
+VALUES (9, 'unpaid leave', '2024-09-01', '2024-09-10', '2024-07-11', 'Pending');
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Outcome:
+This schema enables efficient management of employee attendance ,including tracking daily attendance, managing leave requests, and 
+monitoring employee work patterns.By maintaining these relationships , database designers can generate attendance reports,analyze absenteeism trends, 
+and ensure compliance with company policies.
+
+*I spent two days carefully designing and building this project, making sure it works well and meets high standards.
