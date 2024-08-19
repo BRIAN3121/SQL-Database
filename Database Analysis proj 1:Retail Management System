@@ -77,7 +77,7 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)  -- Establishes relationship with Customers table
 );
 INSERT INTO orders(order_id,customer_id,order_date,total_amount,status)
-VALUES(6,2,08/08/2024,30.20,'received')
+VALUES(6,2,2024-08-08,30.20,'New')
 ------------------------------------------------------------------------------------------------------------------------------
 --Tools and Technologies:
 Database:SQL Server
