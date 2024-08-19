@@ -1,0 +1,129 @@
+Project Title:Health Care Management System
+
+Requirements:identify entities such as patients,doctores,appointments,medical records and prescriptions.create a detailed 
+relational schema with sql to manage health care data efficiently
+
+Entities:
+1.Patients: Stores personal and contact information of patients.
+2.Doctors: Stores information about doctors, including their specialties.
+3.Appointments: Manages the scheduling of appointments between patients and doctors.
+4.Medical Records: Stores detailed medical history and treatment records for each patient.
+5.Prescriptions: Tracks medications prescribed by doctors to patients.
+
+Relational Schema Design:
+1. Patients Table
+This table stores personal details of patients
+
+CREATE TABLE patients (
+    patient_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    gender VARCHAR(10),
+    contact_number VARCHAR(15),
+    email VARCHAR(100) UNIQUE,
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10),
+    blood_type VARCHAR(3),
+    allergies TEXT,
+    emergency_contact VARCHAR(255)
+);
+-- Insert into Patients
+INSERT INTO patients (first_name, last_name, date_of_birth, gender, contact_number, email, address, city, state, zip_code, blood_type, allergies, emergency_contact)
+VALUES ('Thompson', 'Draw', '1988-05-15', 'Male', '353-466-700', 'dr.thom.@example.com', '256 Main St', 'Springnight', 'IL', '62701', 'O+', 'Penicillin', 'Peter Daya - 959-654-8200')
+VALUES ('Mavis', 'Dreck', '1996-09-10', 'Female', '228-496-796', 'mavis.dr@example.com', '512 St Alberts', 'Peace', 'LA', '33100', 'A+', 'Mold', 'Mercy Hays - 335-256-2565');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Doctors Table
+This table stores information about doctors, including their specialties.
+
+CREATE TABLE doctors (
+    doctor_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    specialty VARCHAR(100) NOT NULL,
+    contact_number VARCHAR(15),
+    email VARCHAR(100) UNIQUE,
+    office_address VARCHAR(255)
+);
+-- Insert into Doctors
+INSERT INTO doctors (first_name, last_name, specialty, contact_number, email, office_address)
+VALUES ('Dr. Mercy', 'Peace', 'Cardiology', '246-802-8811', 'mercy.p@mhospital.com', '196 Corner Miracle ST, Suite 105'),
+VALUES ('Dr. ', 'Smith', 'Cardiology', '234-567-8901', 'emily.smith@hospital.com', '456 Elm St, Suite 101');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Appointments Table
+This table manages appointment scheduling between patients and doctors.
+
+CREATE TABLE appointments (
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,      -- Foreign Key to Patients table
+    doctor_id INT NOT NULL,       -- Foreign Key to Doctors table
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    reason TEXT,
+    status VARCHAR(20) DEFAULT 'Scheduled',  -- E.g., 'Scheduled', 'Completed', 'Cancelled'
+    FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE
+);
+-- Insert into Appointments
+INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, reason, status)
+VALUES (1, 105, '2024-08-20', '10:30:00', 'Regular Checkup', 'completed'),
+VALUES (11, 105, '2024-08-24', '13:50:00', 'Regular Checkup', 'Scheduled'),
+VALUES  (20, 108, '2024-08-28', '16:10:00', 'Regular Checkup', 'cancelled'),
+VALUES  (21, 108, '2024-09-12', '16:10:00', 'Regular Checkup', 'scheduled');
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Medical Records Table
+This table stores detailed medical records and treatment history for each patient.
+
+CREATE TABLE medical_records (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,       -- Foreign Key to Patients table
+    doctor_id INT,                 -- Foreign Key to Doctors table
+    visit_date DATE NOT NULL,
+    diagnosis TEXT,
+    treatment TEXT,
+    notes TEXT,
+    FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE SET NULL
+);
+-- Insert into Medical Records
+INSERT INTO medical_records (patient_id, doctor_id, visit_date, diagnosis, treatment, notes)
+VALUES (1, 105, '2024-08-20', 'Hypertension', 'Prescribed medication', 'Patient advised to reduce sodium intake.'),
+VALUES (11, 105, '2024-08-24', 'Diabetes', 'Insulin therapy', Patient advised to monitor blood sugar levels regularly and follow a low-carb diet.'),
+VALUES (20, 108, '2024-08-28', 'Asthma', 'Inhaled corticosteroids', 'Patient instructed to avoid known allergens and use a peak flow meter to monitor lung function.'),
+VALUES (21, 108, '2024-09-12', 'Back Pain', 'Physical therapy', 'Patient advised to practice proper posture and perform recommended stretching exercises daily.');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Prescriptions Table
+This table tracks medications prescribed by doctors to patients.
+
+CREATE TABLE prescriptions (
+    prescription_id INT AUTO_INCREMENT PRIMARY KEY,
+    record_id INT NOT NULL,      -- Foreign Key to Medical Records table
+    medication_name VARCHAR(100) NOT NULL,
+    dosage VARCHAR(50) NOT NULL,
+    frequency VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    instructions TEXT,
+    FOREIGN KEY (record_id) REFERENCES medical_records(record_id) ON DELETE CASCADE
+);
+-- Insert into Prescriptions
+INSERT INTO prescriptions (record_id, medication_name, dosage, frequency, start_date, end_date, instructions)
+VALUES (12, 'Lisinopril', '10mg', 'Once daily', '2024-08-20', '2024-09-05', 'Take with food.'),
+VALUES(15, 'Aspirin', '81mg', 'Once daily', '2024-08-24', '2024-09-15', 'Take with a glass of water.'),
+VALUES(19, 'Metformin', '500mg', 'Twice daily', '2024-08-28', '2024-09-20', 'Take with meals.'),
+VALUES(21, 'Simvastatin', '20mg', 'Once daily', '2024-09-12', '2024-09-28', 'Take in the evening.');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Relationships:
+Patients and Doctors: Doctors can treat multiple patients, and patients can be treated by multiple doctors. This is a many-to-many relationship
+managed through the appointments and medical_records tables.
+
+Appointments: Links patients and doctors for scheduled consultations.
+Medical Records: Connects a patient with their medical history and associated doctor.
+Prescriptions: Connects each medical record with the prescribed medications.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
