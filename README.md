@@ -1,5 +1,5 @@
 Why I Created These Projects:
-To enhance my skills as a Database Analyst, I developed four advanced SQL database projects in just 8 days:
+To enhance my skills as a Database Analyst, I developed four advanced SQL database projects in 4 months:
 
 1.Retail Management System: Manages retail operations, showcasing my ability to design comprehensive schemas for customer, supplier, and order data.
 
