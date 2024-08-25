@@ -1,5 +1,8 @@
 Project 2: Customer Relationship Management System.
 
+-- CRM Database Project
+-- This script creates a CRM database schema with tables for Customers, Leads, Contacts, and Opportunities.
+
 Q:Identify entities such as customers,leads ,contacts and opportunities.create a relational schema with sql,establishing appropriate relationships
 
 Entities:
@@ -11,9 +14,9 @@ d.Opportunities: Sales opportunities related to either a customer or a lead, tra
 Here is an example of how Database designers could design the relational schema for a CRM system and implement it using SQL:
 
 Relational Schema Design:
-1. Customers Table
-Stores information about the customers of the company.
 
+-- 1. Customers Table
+-- Stores information about the customers of the company.
 CREATE TABLE customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(100) NOT NULL,
@@ -25,15 +28,15 @@ CREATE TABLE customers (
     zip_code VARCHAR(10),
     email VARCHAR(100) UNIQUE
 );
+--------------------------------------------------------------------------------------------------------------------------------------------------
 -- Insert into Customers
 INSERT INTO customers (company_name, industry, phone_number, address, city, state, zip_code, email)
-VALUES ('Dream Technology.', 'Information Technology', '223-456-8890', '44444 Tech Street', 'San Francisco', 'CA', '94107', 'dream@techus.com')
-VALUES ('Mobile Tech','Assembling Dpt','995-2235-45462','124 Holy Street','San Tanio','Texas','22556','mobile@tech.com');
---------------------------------------------------------------------------------------------------------------------------------------------------
+VALUES 
+('Dream Technology.', 'Information Technology', '223-456-8890', '44444 Tech Street', 'San Francisco', 'CA', '94107', 'dream@techus.com'),
+('Mobile Tech', 'Assembling Dpt', '995-2235-45462', '124 Holy Street', 'San Tanio', 'Texas', '22556', 'mobile@tech.com');
 
-2. Leads Table
-Represents potential customers who have not yet been converted to customers.
-
+-- 2. Leads Table
+-- Represents potential customers who have not yet been converted to customers.
 CREATE TABLE leads (
     lead_id INT AUTO_INCREMENT PRIMARY KEY,
     lead_name VARCHAR(100) NOT NULL,
@@ -42,14 +45,15 @@ CREATE TABLE leads (
     email VARCHAR(100) UNIQUE,
     status VARCHAR(50) DEFAULT 'New'
 );
+--------------------------------------------------------------------------------------------------------------------------------------------------
 -- Insert into Leads
 INSERT INTO leads (lead_name, company_name, phone_number, email)
-VALUES ('Jerry Doe', 'Further Tech', '387-854-3290', 'jerry.doe@furthertech.com')
-VALUES ('Andrew Dunk', 'Dust Tech', '227-825-4765', 'andre@dusttech.com');
---------------------------------------------------------------------------------------------------------------------------------------------------
-3. Contacts Table
-Stores contact information for individuals associated with either customers or leads.
+VALUES 
+('Jerry Doe', 'Further Tech', '387-854-3290', 'jerry.doe@furthertech.com'),
+('Andrew Dunk', 'Dust Tech', '227-825-4765', 'andre@dusttech.com');
 
+-- 3. Contacts Table
+-- Stores contact information for individuals associated with either customers or leads.
 CREATE TABLE contacts (
     contact_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -61,14 +65,15 @@ CREATE TABLE contacts (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE SET NULL,
     FOREIGN KEY (lead_id) REFERENCES leads(lead_id) ON DELETE SET NULL
 );
+
 -- Insert into Contacts
 INSERT INTO contacts (first_name, last_name, email, phone_number, customer_id)
-VALUES ('Terry', 'Smith', 'terry.smith@techsolutions.com', '123-456-7891', 1)
-VALUES (Jack', 'Brandom', 'jack.bran@prosper.com', '256-685-5681', 2);
+VALUES 
+('Terry', 'Smith', 'terry.smith@techsolutions.com', '123-456-7891', 1),
+('Jack', 'Brandom', 'jack.bran@prosper.com', '256-685-5681', 2);
 --------------------------------------------------------------------------------------------------------------------------------------------------
-4. Opportunities Table
-Tracks sales opportunities associated with either a customer or a lead.
-
+-- 4. Opportunities Table
+-- Tracks sales opportunities associated with either a customer or a lead.
 CREATE TABLE opportunities (
     opportunity_id INT AUTO_INCREMENT PRIMARY KEY,
     opportunity_name VARCHAR(100) NOT NULL,
@@ -81,10 +86,13 @@ CREATE TABLE opportunities (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE SET NULL,
     FOREIGN KEY (lead_id) REFERENCES leads(lead_id) ON DELETE SET NULL
 );
+
 -- Insert into Opportunities
 INSERT INTO opportunities (opportunity_name, description, value, stage, close_date, customer_id)
-VALUES ('Enterprise Software Suite', 'Large scale software deployment', 50000.00, 'Proposal', '2024-10-30', 3)
-VALUES ('Computer Hardware', 'Heavy Scale deployment', 2000 000.00, 'Proposal', '2024-08-22', 4);
+VALUES 
+('Enterprise Software Suite', 'Large scale software deployment', 50000.00, 'Proposal', '2024-10-30', 1),
+('Computer Hardware', 'Heavy Scale deployment', 2000000.00, 'Proposal', '2024-08-22', 2);
+
 --------------------------------------------------------------------------------------------------------------------------------------------------
 *NB:This schema allows database designers to efficiently manage customer and lead data, track contacts, and monitor the progress of sales
 opportunities.By maintaining these relationships, they can generate insightful reports, optimize sales strategies, and improve customer relationships.
